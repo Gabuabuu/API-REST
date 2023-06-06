@@ -1,4 +1,4 @@
-import app from "./src/app.js";
+import app from "./src/app.js"; //
 
 const PORT = 2811; //Endereço da porta do server
 
