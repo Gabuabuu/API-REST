@@ -51,4 +51,12 @@ app.delete('/selecoes/:id', (req, res) => {
     res.status(200).send(`Selecão deletada com o ${req.params.id} deletada sucesso!`)
 })
 
+//Atualiza por id
+app.put('/selecoes/:id', (req, res) => {
+    let index = buscaIndexSelecao(req.params.id)
+    selecoes[index].selecao = req.body.selecao
+    selecoes[index].grupo = req.body.grupo
+    res.json(selecoes)
+})
+
 export default app //Exportação padrão é o app 
