@@ -3,7 +3,7 @@ import express from 'express';
 const app = express();
 
 //Indicar para o express ler o json do body
-app.use(express.json()) 
+app.use(express.json())
 
 //mock
 const selecoes = [
@@ -13,8 +13,15 @@ const selecoes = [
     { id: 4, selecao: 'Camarões', grupo: 'G' }
 ]
 
+
+//Retornar o objeto por id
 function buscarSelecaoPorId(id) {
-    return selecoes.filter( selecao => selecao.id == id)
+    return selecoes.filter(selecao => selecao.id == id)
+}
+
+//Buscar posicao do elemento no array por id
+function buscaIndexSelecao(id) {
+    return selecoes.findIndex(selecao => selecao.id == id) //retorna o indice do id que o usuario está buscando
 }
 
 //criar rota padrão
@@ -26,8 +33,10 @@ app.get('/selecoes', (req, res) => {
     res.status(200).send(selecoes)
 })
 
+
+//Get com opção de busca por id
 app.get('/selecoes/:id', (req, res) => {
-        res.json(buscarSelecaoPorId(req.params.id))
+    res.json(buscarSelecaoPorId(req.params.id))
 })
 
 app.post('/selecoes', (req, res) => {
@@ -35,4 +44,11 @@ app.post('/selecoes', (req, res) => {
     res.status(201).send('Seleção cadastrada com sucesso!')
 })
 
-export default app //Exportação padrão é o app
+//Delete por id
+app.delete('/selecoes/:id', (req, res) => {
+    let index = buscaIndexSelecao(req.params.id)
+    selecoes.splice(index, 1) //Remove elemento do array
+    res.status(200).send(`Selecão deletada com o ${req.params.id} deletada sucesso!`)
+})
+
+export default app //Exportação padrão é o app 
