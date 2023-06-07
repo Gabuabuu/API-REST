@@ -1,7 +1,18 @@
 import app from "./src/app.js";
 
+import conexao from "./infra/conexao.js";
+
 const PORT = 2811; //Endereço da porta do server
 
-app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`)
+//Fazer conexão 
+conexao.connect((erro) => {
+    if (erro) {
+        console.log(erro)
+    } else {
+        console.log('Conexão realizada com sucesso!');
+
+        app.listen(PORT, () => {
+            console.log(`Servidor rodando na porta ${PORT}`)
+        })
+    }
 })
