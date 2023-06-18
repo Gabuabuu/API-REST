@@ -28,7 +28,8 @@ function buscaIndexSelecao(id) {
 
 app.get('/selecoes', (req, res) => {
   // res.status(200).send(selecoes)
-   conexao.query(sql, (error, result) => {
+  const sql = "SELECT * FROM selecoes" //Selecionando lista de seleções do banco de dados
+  conexao.query(sql, (error, result) => {
     if (error) {
       console.log(error)
       res.status(404).json({ 'error': `${error}` })
@@ -42,20 +43,33 @@ app.get('/selecoes', (req, res) => {
 //Get com opção de busca por id
 app.get('/selecoes/:id', (req, res) => {
   // res.json(buscarSelecaoPorId(req.params.id))
-  conexao.query(sql, (error, result) => {
+  const id = req.params.id
+  const sql = "SELECT * FROM selecoes WHERE id=?" //Obtendo informações da seleção atraves do id 
+  conexao.query(sql, id, (error, result) => {
+    const row = result[0]
     if (error) {
       console.log(error)
       res.status(404).json({ 'error': `${error}` })
     } else {
-      res.status(200).json(result)
+      res.status(200).json(row)
     }
   })
 })
 
 //Metodo para criar nova seleção
 app.post('/selecoes', (req, res) => {
-  selecoes.push(req.body) //req.body = corpo da requisão
-  res.status(201).send('Seleção cadastrada com sucesso!')
+  // selecoes.push(req.body) //req.body = corpo da requisão
+  // res.status(201).send('Seleção cadastrada com sucesso!')
+  const selecao = req.body
+  const sql = "INSERT INTO selecoes SET ?" //Inserindo dados na tabela de seleções dentro do banco de dados
+  conexao.query(sql, selecao, (error, result) => {
+    if (error) {
+      console.log(error)
+      res.status(404).json({ 'error': `${error}` })
+    } else {
+      res.status(201).json(result)
+    }
+  })
 })
 
 //Delete por id
