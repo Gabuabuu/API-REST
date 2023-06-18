@@ -27,7 +27,6 @@ function buscaIndexSelecao(id) {
 //ENDPOINT:Parte final da url. Ex: /filmes, /jogos
 
 app.get('/selecoes', (req, res) => {
-  // res.status(200).send(selecoes)
   const sql = "SELECT * FROM selecoes" //Selecionando lista de seleções do banco de dados
   conexao.query(sql, (error, result) => {
     if (error) {
@@ -42,7 +41,6 @@ app.get('/selecoes', (req, res) => {
 
 //Get com opção de busca por id
 app.get('/selecoes/:id', (req, res) => {
-  // res.json(buscarSelecaoPorId(req.params.id))
   const id = req.params.id
   const sql = "SELECT * FROM selecoes WHERE id=?" //Obtendo informações da seleção atraves do id 
   conexao.query(sql, id, (error, result) => {
@@ -58,8 +56,6 @@ app.get('/selecoes/:id', (req, res) => {
 
 //Metodo para criar nova seleção
 app.post('/selecoes', (req, res) => {
-  // selecoes.push(req.body) //req.body = corpo da requisão
-  // res.status(201).send('Seleção cadastrada com sucesso!')
   const selecao = req.body
   const sql = "INSERT INTO selecoes SET ?" //Inserindo dados na tabela de seleções dentro do banco de dados
   conexao.query(sql, selecao, (error, result) => {
