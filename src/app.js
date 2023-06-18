@@ -1,5 +1,5 @@
 import express from 'express';
-
+import conexao from '../infra/conexao.js' //Importando conexão do banco de dados (DB)
 const app = express();
 
 //Indicar para o express ler o json do body
@@ -24,19 +24,32 @@ function buscaIndexSelecao(id) {
   return selecoes.findIndex(selecao => selecao.id == id) //retorna o indice do id que o usuario está buscando
 }
 
-//criar rota padrão
-app.get('/', (req, res) => {
-  res.send("Pagina inicial")
-}); //ENDPOINT:Parte final da url. Ex: /filmes, /jogos
+//ENDPOINT:Parte final da url. Ex: /filmes, /jogos
 
 app.get('/selecoes', (req, res) => {
-  res.status(200).send(selecoes)
+  // res.status(200).send(selecoes)
+   conexao.query(sql, (error, result) => {
+    if (error) {
+      console.log(error)
+      res.status(404).json({ 'error': `${error}` })
+    } else {
+      res.status(200).json(result)
+    }
+  })
 })
 
 
 //Get com opção de busca por id
 app.get('/selecoes/:id', (req, res) => {
-  res.json(buscarSelecaoPorId(req.params.id))
+  // res.json(buscarSelecaoPorId(req.params.id))
+  conexao.query(sql, (error, result) => {
+    if (error) {
+      console.log(error)
+      res.status(404).json({ 'error': `${error}` })
+    } else {
+      res.status(200).json(result)
+    }
+  })
 })
 
 //Metodo para criar nova seleção
