@@ -74,9 +74,20 @@ app.post('/selecoes', (req, res) => {
 
 //Delete por id
 app.delete('/selecoes/:id', (req, res) => {
-  let index = buscaIndexSelecao(req.params.id)
-  selecoes.splice(index, 1) //Remove elemento do array
-  res.status(200).send(`Selecão deletada com o ${req.params.id} deletada sucesso!`)
+  // let index = buscaIndexSelecao(req.params.id)
+  // selecoes.splice(index, 1) //Remove elemento do array
+  // res.status(200).send(`Selecão deletada com o ${req.params.id} deletada sucesso!`)
+
+  const id = req.params.id
+  const sql = "DELETE FROM selecoes WHERE id=?" //Deletando seleção da tabela atraves do id 
+  conexao.query(sql, id, (error, result) => {
+    if (error) {
+      console.log(error)
+      res.status(404).json({ 'error': `${error}` })
+    } else {
+      res.status(200).json(result)
+    }
+  })
 })
 
 //Atualiza por id
