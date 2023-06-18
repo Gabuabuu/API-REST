@@ -92,10 +92,17 @@ app.delete('/selecoes/:id', (req, res) => {
 
 //Atualiza por id
 app.put('/selecoes/:id', (req, res) => {
-  let index = buscaIndexSelecao(req.params.id)
-  selecoes[index].selecao = req.body.selecao
-  selecoes[index].grupo = req.body.grupo
-  res.json(selecoes)
+  const id = req.params.id
+  const selecao = req.body
+  const sql = "UPDATE selecoes SET ? WHERE id=?" //Atualizando dados na tabela de seleções por id
+  conexao.query(sql, [selecao, id], (error, result) => {
+    if (error) {
+      console.log(error)
+      res.status(404).json({ 'error': `${error}` })
+    } else {
+      res.status(201).json(result)
+    }
+  })
 })
 
 export default app //Exportação padrão é o app 
