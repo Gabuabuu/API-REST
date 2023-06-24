@@ -1,5 +1,5 @@
 import express from 'express';
-import conexao from '../infra/conexao.js' //Importando conexão do banco de dados (DB)
+import conexao from './app/database/conexao.js' //Importando conexão do banco de dados (DB)
 const app = express();
 
 //Indicar para o express ler o json do body
