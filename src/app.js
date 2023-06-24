@@ -14,18 +14,6 @@ const selecoes = [
 ]
 
 
-//Retornar o objeto por id
-function buscarSelecaoPorId(id) {
-  return selecoes.filter(selecao => selecao.id == id)
-} //Filtrando por seleção dentro da lista de seleções, caso o id seja igual o da lista, retornara a seleção do id 
-
-//Buscar posicao do elemento no array por id
-function buscaIndexSelecao(id) {
-  return selecoes.findIndex(selecao => selecao.id == id) //retorna o indice do id que o usuario está buscando
-}
-
-//ENDPOINT:Parte final da url. Ex: /filmes, /jogos
-
 app.get('/selecoes', (req, res) => {
   const sql = "SELECT * FROM selecoes" //Selecionando lista de seleções do banco de dados
   conexao.query(sql, (error, result) => {
@@ -70,10 +58,6 @@ app.post('/selecoes', (req, res) => {
 
 //Delete por id
 app.delete('/selecoes/:id', (req, res) => {
-  // let index = buscaIndexSelecao(req.params.id)
-  // selecoes.splice(index, 1) //Remove elemento do array
-  // res.status(200).send(`Selecão deletada com o ${req.params.id} deletada sucesso!`)
-
   const id = req.params.id
   const sql = "DELETE FROM selecoes WHERE id=?" //Deletando seleção da tabela atraves do id 
   conexao.query(sql, id, (error, result) => {
